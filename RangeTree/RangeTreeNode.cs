@@ -148,5 +148,28 @@ namespace MB.Algodat
             
             return results;
         }
+
+        public void Move(TKey position, Func<TKey, TKey> delta)
+        {
+            // If the node has items, check their ranges.
+            if (_items != null)
+            {
+                for (int i = 0; i < _items.Count; i++)
+                {
+                    if (_items[i].Range.From.CompareTo(position) >= 0 || _items[i].Range.To.CompareTo(position) >= 0)
+                    {
+                        var range = Range.Create(_items[i].Range.From, delta(_items[i].Range.To));
+                        _items[i].Range = range;
+                    }
+                }
+            }
+
+            // go to the left or go to the right of the tree, depending
+            // where the query value lies compared to the center
+            if (position.CompareTo(_center) < 0 && _leftNode != null)
+                _leftNode.Move(position, delta);
+            if (position.CompareTo(_center) > 0 && _rightNode != null)
+                _rightNode.Move(position, delta);
+        }
     }
 }

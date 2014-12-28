@@ -275,5 +275,13 @@ namespace MB.Algodat
                 return _addedItems.Count > 100 || _removedItems.Count > 100;
             }
         }
+
+        public void Move(TKey oldPosition, Func<TKey, TKey> delta)
+        {
+            lock (_locker)
+            {
+                _rangeTree.Move(oldPosition, delta);
+            }
+        }
     }
 }

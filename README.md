@@ -12,6 +12,9 @@ Based on the Java implementation found here: http://www.thekevindolan.com/2010/0
 
 Queries require O(log n + m) time, with n being the total number of intervals and m being the number of reported results. Construction requires O(n log n) time, and storage requires O(n) space.
 
+**This fork will allow you to move all ranged past a certain point down or up by a delta. This avoid having to recreate the tree, however the only reason this is safe is because my specific problem does not allow the tree invariant to be violated. If it is, the class managing the tree would recreate it.
+In general you almost never want this fork unless like me you are tracking sections of text in a text buffer.**
+
 ### Requirements ###
 
 .NET 4, Visual Studio 2010.

@@ -133,6 +133,6 @@ namespace MB.Algodat
     /// <typeparam name="T"></typeparam>
     public interface IRangeProvider<T> where T : IComparable<T>
     {
-        Range<T> Range { get; }
+        Range<T> Range { get; set; }
     }
 }

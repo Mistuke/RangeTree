@@ -25,12 +25,13 @@ namespace MB.Algodat
         void Remove(T item);
         void Remove(IEnumerable<T> items);
         void Clear();
+        void Move(TKey oldPosition, Func<TKey, TKey> delta);
     }
 
     /// <summary>
     /// The standard range tree implementation. Keeps a root node and
     /// forwards all queries to it.
-    /// Whenenver new items are added or items are removed, the tree 
+    /// Whenever new items are added or items are removed, the tree 
     /// goes "out of sync" and is rebuild when it's queried next.
     /// </summary>
     /// <typeparam name="TKey">The type of the range.</typeparam>
@@ -106,7 +107,7 @@ namespace MB.Algodat
         }
 
         /// <summary>
-        /// Performans a "stab" query with a single value.
+        /// Performs a "stab" query with a single value.
         /// All items with overlapping ranges are returned.
         /// </summary>
         public List<T> Query(TKey value)
@@ -118,7 +119,7 @@ namespace MB.Algodat
         }
 
         /// <summary>
-        /// Performans a range query.
+        /// Performs a range query.
         /// All items with overlapping ranges are returned.
         /// </summary>
         public List<T> Query(Range<TKey> range)
@@ -187,6 +188,17 @@ namespace MB.Algodat
             _root = new RangeTreeNode<TKey, T>(_rangeComparer);            
             _items = new List<T>();
             _isInSync = true;
+        }
+
+        /// <summary>
+        /// Move all the items starting from the span that contains this position down 
+        /// by the given delta
+        /// </summary>
+        /// <param name="oldPosition">Old position of the span to look for</param>
+        /// <param name="delta">The to apply to transform the index. Only use + and - here</param>
+        public void Move(TKey oldPosition, Func<TKey, TKey> delta)
+        {
+            _root.Move(oldPosition, delta);
         }
     }
 
