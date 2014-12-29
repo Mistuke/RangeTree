@@ -156,10 +156,16 @@ namespace MB.Algodat
             {
                 for (int i = 0; i < _items.Count; i++)
                 {
-                    if (_items[i].Range.From.CompareTo(position) >= 0 || _items[i].Range.To.CompareTo(position) >= 0)
+                    T rng = _items[i];
+                    if (rng.Range.Contains(position))
                     {
-                        var range = Range.Create(_items[i].Range.From, delta(_items[i].Range.To));
-                        _items[i].Range = range;
+                        var range = Range.Create(rng.Range.From, delta(rng.Range.To));
+                        rng.Range = range;
+                    }
+                    else if (rng.Range.From.CompareTo(position) >= 0 || rng.Range.To.CompareTo(position) >= 0)
+                    {
+                        var range = Range.Create(delta(rng.Range.From), delta(rng.Range.To));
+                        rng.Range = range;
                     }
                 }
             }
