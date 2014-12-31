@@ -172,9 +172,9 @@ namespace MB.Algodat
 
             // go to the left or go to the right of the tree, depending
             // where the query value lies compared to the center
-            if (position.CompareTo(_center) < 0 && _leftNode != null)
+            if (_leftNode != null && position.CompareTo(_center) < 0)
                 _leftNode.Move(position, delta);
-            if (position.CompareTo(_center) > 0 && _rightNode != null)
+            if (_rightNode != null && position.CompareTo(_center) > 0)
                 _rightNode.Move(position, delta);
         }
     }
